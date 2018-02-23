@@ -23,5 +23,10 @@ iron:router
 jquery
 bootstrap
 fortawesome:fontawesome
-aldeed:collection2
+aldeed:simple-schema
+accounts-ui
+accounts-password
+aldeed:collection2@3.0.0
+aldeed:schema-deny
+aldeed:schema-index
 aldeed:autoform

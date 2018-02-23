@@ -1,0 +1,39 @@
+shops: {
+	_owner: #ref: users -> _id#
+	name: #String#
+	address: #String#
+	telephone: #String#
+	shedules: [] {
+		dDay: #int#
+		begin: #time#
+		end: #time#
+	}
+	img_banner: #String# // Path inside the server
+}
+
+items: {
+	_shop: #ref: shop -> _id#
+	name: #String#
+	description: #String#
+	price: #Double#
+	remaining: #Double#
+	img: #String# // Also a path inside the server
+}
+
+users: {
+	mail: #String#
+	password: #String#
+	profile: {
+		first_name: #String#
+		last_name: #String#
+		birthday: #String#
+		address: #Date#
+	}
+}
+
+orders: {
+	_items: [] #ref: item->_id []#
+	_user: #ref: user -> _id#
+	orderDate: #Date#
+	witdrawalDate: #DateTime#
+}
