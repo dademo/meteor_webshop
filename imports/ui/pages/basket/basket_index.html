@@ -1,0 +1,47 @@
+<template name="basket_index">
+    <div class="row">
+        <div class="col-lg-12">
+            <table class="table table-striped table-bordered basket">
+                <thead>
+                    <tr>
+                        <th>Nom de l'article</th>
+                        <th id="qtte">Quantit&eacute;</th>
+                        <th>Prix</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Article 1</td>
+                        <td><input type="number" class="form-control" value="2" min="1"/></td>
+                        <td>XX &euro;</td>
+                    </tr>
+                    <tr>
+                        <td>Article 2</td>
+                        <td><input type="number" class="form-control" value="5" min="1"/></td>
+                        <td>XX &euro;</td>
+                    </tr>
+                    <tr>
+                        <td>Article 3</td>
+                        <td><input type="number" class="form-control" value="1" min="1"/></td>
+                        <td>XX &euro;</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="2">Total</td>
+                        <td>XX &euro;</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 bottom">
+            <div class="text-right">
+                <a href="{{pathFor route='order'}}">
+                    <button id="btn-order" class="btn btn-primary">Commander</button>
+                </a>
+            </div>
+        </div>
+    </div>
+</template>

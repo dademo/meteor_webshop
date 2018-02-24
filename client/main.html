@@ -2,41 +2,25 @@
     <title>meteor_webshop</title>
 </head>
 
-<body>
-    <h1>Welcome to Meteor!</h1>
 
-    <!--{{> hello}}
-    {{> info}}-->
+<body>
 </body>
 
-<template name="hello">
-    <button>Click Me</button>
-    <p>You've pressed the button {{counter}} times.</p>
+
+<template name="AppLayout">
+    {{ > tpl_header }}
+
+    <div class="container">
+
+        {{ > yield }}
+        
+    </div>
+
+    {{ > tpl_footer }}
 </template>
 
-<template name="info">
-    <h2>Learn Meteor!</h2>
-    <ul>
-        <li><a href="https://www.meteor.com/try" target="_blank">Do the Tutorial</a></li>
-        <li><a href="http://guide.meteor.com" target="_blank">Follow the Guide</a></li>
-        <li><a href="https://docs.meteor.com" target="_blank">Read the Docs</a></li>
-        <li><a href="https://forums.meteor.com" target="_blank">Discussions</a></li>
-    </ul>
-</template>
-
-<template name="Home">
-    <h2>{{ msg }}</h2>
-    <p>Hello World !</p>
-</template>
-
-<template name="HomeId">
-    <h2>Hello {{id}}</h2>
-    <p>Hello World {{id}}</p>
-    {{ > vue2 }}
-</template>
-
-<template name="vue2">
-    <p>Vue 2</p>
-    {{ setAuthor }}
-    {{ helloWorld }}
+<template name="VoidLayout">
+    
+    {{ > yield }}
+    
 </template>

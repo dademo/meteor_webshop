@@ -1,0 +1,1 @@
+import './basket_index.html';
