@@ -1,11 +1,12 @@
-import { Template } from 'meteor/templating'
+import { Meteor } from 'meteor/meteor';
+import { Template } from 'meteor/templating';
 
 Template.registerHelper('helloWorld', function () {
     return '<p>Hello World !</p>'
 });
 
-Template.registerHelper('setAuthor', function(){
+Template.registerHelper('userMail', function(){
 
-    return '<b>Bibi</b>';
+    return  Meteor.user().emails[0].address;
 
 });

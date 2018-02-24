@@ -26,7 +26,7 @@ users: {
 	profile: {
 		first_name: #String#
 		last_name: #String#
-		birthday: #String#
+		birthdate: #String#
 		address: #Date#
 	}
 }

@@ -6,24 +6,8 @@ import './main.html';
 import '../imports/ui/layouts/templates/header.html';
 import '../imports/ui/layouts/templates/footer.html';
 */
-import '../imports/ui/layouts/templates/import.js';
+import '../imports/ui/layouts/import.js';
 import '../imports/ui/pages/import.js';
+import '../imports/ui/components/import.js';
 
-
-Template.hello.onCreated(function helloOnCreated() {
-    // counter starts at 0
-    this.counter = new ReactiveVar(0);
-});
-
-Template.hello.helpers({
-    counter() {
-        return Template.instance().counter.get();
-    },
-});
-
-Template.hello.events({
-    'click button'(event, instance) {
-        // increment the counter when button is clicked
-        instance.counter.set(instance.counter.get() + 1);
-    },
-});
+import '../imports/client/comportments/import.js';

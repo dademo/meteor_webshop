@@ -1,0 +1,36 @@
+<template name="menu_login">
+    <div class="row">
+        <div class="col-lg-12">
+            {{#if currentUser}}
+
+            <div>
+                <h1>Connect&eacute;</h1>
+                <p>
+                    <b>{{userMail}}</b><br/>
+                    <a href="{{pathFor route='profile'}}" id="profile"><b>Voir votre profil</b></a>
+                </p>
+            </div>
+
+            {{else}}
+
+            {{ > tpl_login }}
+
+            {{/if}}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 bottom">
+            <div class="text-center">
+                {{#if currentUser}}
+
+                <a href="#" id="logout"><b>D&eacute;connexion</b></a>
+
+                {{else}}
+
+                Nouveau ? <a href="{{pathFor route='signin'}}" id="signin"><b>Inscrivez-vous</b></a>
+
+                {{/if}}
+            </div>
+        </div>
+    </div>
+</template>

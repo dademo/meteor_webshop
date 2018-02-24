@@ -1,4 +1,4 @@
-.container:not(.header) {
+.container:not(.header):not(.footer) {
     padding-top: 10px;
     padding-bottom: 10px;
 }
@@ -116,4 +116,8 @@ table.basket td:nth-child(3), table.basket td:nth {
 /* Fix for height problem */
 .carousel-item {
     height: unset;
+}
+
+.hidden {
+    display: none;
 }
