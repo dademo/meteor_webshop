@@ -19,7 +19,6 @@ shell-server@0.3.1            # Server-side component of the `meteor shell` comm
 iron:router
 jquery
 fortawesome:fontawesome
-aldeed:simple-schema
 accounts-ui
 accounts-password
 aldeed:collection2@3.0.0
