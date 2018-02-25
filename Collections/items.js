@@ -1,3 +1,6 @@
+import { Meteor } from 'meteor/meteor';
+import SimpleSchema from 'simpl-schema';
+
 Items = new Mongo.Collection('items');
 
 Items.allow({
@@ -36,9 +39,76 @@ Items.attachSchema(new SimpleSchema({
     },
     img: {
         type: String,
-        optional: true
+        autoValue: function () {
+            return 'http://placehold.it/700x400';
+        }
+    },
+    shop_front: {
+        type: Boolean,
+        autoValue: function () {
+            return false;
+        }
     }
 }));
+
+function modifItem(item) {
+    if (item.hasOwnProperty('shop')) {    // On affecte l'élément _owner pour l'insertion en BDD
+        item._shop = item.shop._id;
+        delete item.shop;
+    }
+    return item;
+}
+
+
+Meteor.methods({
+    'addItem': function (item, callback) {
+        return Items.insert(modifItem(item), callback);
+    },
+    'updateItem': function (item, modifier, ...optionsAndCallback) {
+        return Items.update(modifItem(item), modifier, optionsAndCallback);
+    },
+    'findItem': function (...args) {
+        var allResults = [];
+        var cursor = null;
+        if (args.length === 0) {
+            cursor = Items.find();
+        } else if (args.length === 1) {
+            cursor = Items.find(args[0]);
+        } else if (args.length === 2) {
+            cursor = Items.find(args[0], args.length[1]);
+        } else {
+            // Non-implémenté
+        }
+
+        if (cursor) {
+            cursor.forEach(function (item) {
+                if (item.hasOwnProperty('_shop')) {
+                    item.shop = Shops.findOne({_id: item._shop});
+                }
+                allResults.push(item);
+            });
+        }
+        return allResults;
+    },
+    'findOneItem': function (...args) {
+        var item = null;
+        if (args.length === 0) {
+            item = Items.findOne();
+        } else if (args.length === 1) {
+            item = Items.findOne(args[0]);
+        } else if (args.length === 2) {
+            item = Items.findOne(args[0], args.length[1]);
+        } else {
+            // Non-implémenté
+        }
+        if (item) {
+            if (item.hasOwnProperty('_shop')) {
+                item.shop = Shops.findOne({_id: item._shop});
+            }
+        }
+        return item;
+    }
+});
 
 // On règle la boutique associée à l'objet
 Items.before.insert(function (userId, item) {
@@ -71,15 +141,19 @@ Items.before.upsert(function (userId, selector, modifier, options) {
 });
 
 Items.after.find(function (userId, selector, options, cursor) {
-    cursor.each(function (err, item) {
-        if (item.hasOwnProperty('_shop')) {
-            item.shop = Shops.findOne({_id: item._shop});
-        }
-    });
+    /*if (Array.isArray(cursor)) {
+     cursor.forEach(function (item) {
+     if (item.hasOwnProperty('_shop')) {
+     item.shop = Shops.findOne({_id: item._shop});
+     }
+     });
+     } else {
+     
+     }*/
 });
 
 Items.after.findOne(function (userId, selector, options, item) {
-    if (item.hasOwnProperty('_shop')) {
-        item.shop = Shops.findOne({_id: item._shop});
-    }
+    /*if (item.hasOwnProperty('_shop')) {
+     item.shop = Shops.findOne({_id: item._shop});
+     }*/
 });

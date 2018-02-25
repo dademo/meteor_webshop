@@ -1,3 +1,12 @@
 <template name="home_index">
-    <h1>Hello World !</h1>
+    <div class="row">
+
+        {{#each shopsList}}
+
+        {{> home_storeView}}
+
+        {{/each}}
+
+    </div>
+
 </template>

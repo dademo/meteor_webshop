@@ -2,6 +2,8 @@ import { Meteor } from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base';
 import { Template } from 'meteor/templating';
 
+import './login.html';
+
 Template.tpl_login.events({
     'submit form': function (event) {
         event.preventDefault();

@@ -1,0 +1,16 @@
+<template name="home_storeView">
+    <div class="col-ls-4 col-md-4 col-mb-4 card-wrapper">
+        <div class="card h-100">
+            <a href="/store/{{_id}}"><img class="card-img-top" src="{{img_banner}}" alt=""></a>
+            <div class="card-body">
+                <h4 class="card-title">
+                    <a href="/store/{{_id}}">{{name}}</a>
+                </h4>
+                <p class="card-text">{{description}}</p>
+            </div>
+            <div class="card-footer store-link">
+                <a href="/store/{{_id}}" >Visiter <i class="fa fa-fw fa-chevron-right"></i></a>
+            </div>
+        </div>
+    </div>
+</template>

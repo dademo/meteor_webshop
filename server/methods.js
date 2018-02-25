@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base';
 
 Meteor.methods({
-    "usersMailList": function () {
+    'usersMailList': function () {
         var users = Meteor.users.find();
         var mailList = [];
 
@@ -14,14 +14,12 @@ Meteor.methods({
 
         return mailList;
     },
-    'register_user': function ({userMail, userPassword}) {
-        console.log('Mail: ' + userMail);
-        console.log('Password: ' + userPassword);
+    'register_user': function ( {userMail, userPassword}) {
         var userId = Accounts.createUser({
             email: userMail,
             password: userPassword
         });
-        
+
         Accounts.sendVerificationEmail(userId);
         return true;
     },

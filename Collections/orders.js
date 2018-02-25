@@ -1,5 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
+
+
 SimpleSchema.extendOptions(['index', 'unique', 'denyInsert', 'denyUpdate']);
 
 Orders = new Mongo.Collection('orders');
@@ -38,9 +40,8 @@ Orders.attachSchema(new SimpleSchema({
     }
 }));
 
-// On règle la boutique associée à l'objet
-Orders.before.insert(function (userId, order) {
-    if (order.hasOwnProperty('items') && Array.isArray(order.items) && order.hasOwnProperty('user')) {    // On affecte l'élément _items pour l'insertion en BDD
+function modifOrder(order) {
+    if (order.hasOwnProperty('items') && Array.isArray(order.items)) {    // On affecte l'élément _items pour l'insertion en BDD
         // Items
         var _items = [];
         order.items.forEach(function (element) {  // On peuple la liste des items
@@ -48,6 +49,96 @@ Orders.before.insert(function (userId, order) {
         });
         order._items = _items;
         delete order.items;
+    }
+    if (order.hasOwnProperty('user')) {
+        // User
+        order._user = order.user._id;
+        delete order.user;
+    }
+    return order;
+}
+
+
+Meteor.methods({
+    'addOrder': function (order, callback) {
+        return Orders.insert(modifOrder(order), callback);
+    },
+    'updateOrder': function (order, modifier, ...optionsAndCallback) {
+        return Orders.update(modifOrder(order), modifier, optionsAndCallback);
+    },
+    'findOrder': function (...args) {
+        var allResults = [];
+        var cursor = null;
+        if (args.length === 0) {
+            cursor = Orders.find();
+        } else if (args.length === 1) {
+            cursor = Orders.find(args[0]);
+        } else if (args.length === 2) {
+            cursor = Orders.find(args[0], args.length[1]);
+        } else {
+            // Non-implémenté
+        }
+
+        if (cursor) {
+            cursor.forEach(function (order) {
+                if (order.hasOwnProperty('_items')) {
+                    // Items
+                    var _items = [];
+                    order.items.forEach(function (element) {  // On peuple la liste des items
+                        _items.push(element._id);
+                    });
+                    order._items = _items;
+                }
+
+                if (order.hasOwnProperty('_user')) {
+                    order.user = Meteor.users.findOne({_id: order._user});
+                }
+            });
+        }
+        return allResults;
+    },
+    'findOneOrder': function (...args) {
+        var order = null;
+        if (args.length === 0) {
+            order = Orders.findOne();
+        } else if (args.length === 1) {
+            order = Orders.findOne(args[0]);
+        } else if (args.length === 2) {
+            order = Orders.findOne(args[0], args.length[1]);
+        } else {
+            // Non-implémenté
+        }
+        if (order) {
+            if (order.hasOwnProperty('_items')) {
+                // Items
+                var _items = [];
+                order.items.forEach(function (element) {  // On peuple la liste des items
+                    _items.push(element._id);
+                });
+                order._items = _items;
+            }
+
+            if (order.hasOwnProperty('_user')) {
+                order.shop = Meteor.users.findOne({_id: order._user});
+            }
+        }
+        return order;
+    }
+});
+
+
+// On règle la boutique associée à l'objet
+Orders.before.insert(function (userId, order) {
+    if (order.hasOwnProperty('items') && Array.isArray(order.items)) {    // On affecte l'élément _items pour l'insertion en BDD
+        // Items
+        var _items = [];
+        order.items.forEach(function (element) {  // On peuple la liste des items
+            _items.push(element._id);
+        });
+        order._items = _items;
+        delete order.items;
+    }
+    if (order.hasOwnProperty('user')) {
         // User
         order._user = order.user._id;
         delete order.user;
@@ -145,20 +236,22 @@ Orders.before.upsert(function (userId, selector, modifier, options) {
 });
 
 Orders.after.find(function (userId, selector, options, cursor) {
-    cursor.each(function (err, order) {
-        if (order.hasOwnProperty('_items')) {
-            // Items
-            var _items = [];
-            order.items.forEach(function (element) {  // On peuple la liste des items
-                _items.push(element._id);
-            });
-            order._items = _items;
-        }
+    if (Array.isArray(cursor)) {
+        cursor.forEach(function (order) {
+            if (order.hasOwnProperty('_items')) {
+                // Items
+                var _items = [];
+                order.items.forEach(function (element) {  // On peuple la liste des items
+                    _items.push(element._id);
+                });
+                order._items = _items;
+            }
 
-        if (order.hasOwnProperty('_user')) {
-            order.user = Meteor.users.findOne({_id: order._user});
-        }
-    });
+            if (order.hasOwnProperty('_user')) {
+                order.user = Meteor.users.findOne({_id: order._user});
+            }
+        });
+    }
 });
 
 Orders.after.findOne(function (userId, selector, options, order) {

@@ -1,1 +1,1 @@
-import './home_index.html';
+import './store_home_index.js';

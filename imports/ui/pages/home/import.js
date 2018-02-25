@@ -1,1 +1,1 @@
-import './home_index.html';
+import './home_index.js';

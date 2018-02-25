@@ -18,7 +18,6 @@ Template.user_signin.events({
             if (!err) {
                 mailList = res;
 
-                console.log(mailList);
                 if ($.inArray(mail, mailList) !== -1) {
                     errors.push('Cette adresse mail est déjà utilisée');
                 }

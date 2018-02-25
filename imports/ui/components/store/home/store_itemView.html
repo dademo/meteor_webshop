@@ -1,0 +1,38 @@
+<template name="store_itemView">
+    <div class="col-lg-4 col-md-6 mb-4">
+        <div id="shop">
+            <div class="card  h-100">
+                <a class="collapsed" data-toggle="collapse" data-parent="#shop" href="#{{_id}}" aria-expanded="false" aria-controls="{{_id}}">
+                    <img class="card-img-top" src="{{img}}" alt="">
+                </a>
+
+                <div id="{{_id}}" class="collapse" role="tabpanel" aria-labelledby="{{_id}}">
+                    <div class="card-body">
+                        <h5>{{name}}</h5>
+                        <p>
+                            {{description}}
+                        </p>
+                        <div>
+                            <p>
+                                <b>{{price}} &euro;</b>
+                            </p>
+                            <p>
+                                {{#if isNotInfinite}}
+                                Reste {{remaining}} articles
+                                {{else}}
+                                Cet article est disponible en quantité infinie
+                                {{/if}}
+                            </p>
+                            <p>Restant</p>
+                            <button class="btn btn-success">Ajouter au panier</button>
+                        </div>
+                    </div>
+
+                    <div class="card-footer text-right">
+                        <a href="/store/{{_shop}}/{{_id}}">Voir la description <i class="fa fa-fw fa-chevron-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

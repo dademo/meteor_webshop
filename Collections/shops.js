@@ -1,14 +1,17 @@
 import { Meteor } from 'meteor/meteor';
+import SimpleSchema from 'simpl-schema';
+
+
 Shops = new Mongo.Collection('shops');
 
 Shops.allow({
-    insert: function(){
+    insert: function () {
         return true;
     },
-    update: function() {
+    update: function () {
         return true;
     },
-    remove: function(){
+    remove: function () {
         return true;
     }
 });
@@ -30,32 +33,97 @@ Shops.attachSchema(new SimpleSchema({
         type: String,
         max: 10
     },
-    schedules: {             // Liste des horaires d'ouverture
+    schedules: {// Liste des horaires d'ouverture
         type: Array
     },
-    'schedules.$': {    // Les éléments contenus sont des objets
+    'schedules.$': {// Les éléments contenus sont des objets
         type: Object
     },
-    'schedules.$.dDay': {   // Jour de la semaine
+    'schedules.$.dDay': {// Jour de la semaine
         type: Number
     },
-    'schedules.$.begin': {  // Début pour la date courante
+    'schedules.$.begin': {// Début pour la date courante
         type: Date
     },
-    'schedules.$.end': {    // Fin pour la date courante
+    'schedules.$.end': {// Fin pour la date courante
         type: Date
     },
-    img_banner: {   // Chemin de la bannière dans le serveur
+    img_banner: {// Chemin de la bannière dans le serveur
+        type: String,
+        autoValue: function () {
+            return 'http://placehold.it/700x400';
+        }
+    },
+    description: {
         type: String,
         optional: true
     }
 }));
 
+function modifShop(shop) {
+    if (shop.hasOwnProperty('owner')) {    // On affecte l'élément _owner pour l'insertion en BDD
+        shop._owner = shop.owner._id;
+        delete shop.owner;
+    }
+    return shop;
+}
+
+
+Meteor.methods({
+    'addShop': function (shop, callback) {
+        return Shops.insert(modifShop(shop), callback);
+    },
+    'updateShop': function (shop, modifier, ...optionsAndCallback) {
+        return Shops.update(modifShop(shop), modifier, optionsAndCallback);
+    },
+    'findShop': function (...args) {
+        var allResults = [];
+        var cursor = null;
+        if (args.length === 0) {
+            cursor = Shops.find();
+        } else if (args.length === 1) {
+            cursor = Shops.find(args[0]);
+        } else if (args.length === 2) {
+            cursor = Shops.find(args[0], args.length[1]);
+        } else {
+            // Non-implémenté
+        }
+
+        if (cursor) {
+            cursor.forEach(function (shop) {
+                if (shop.hasOwnProperty('_owner')) {
+                    shop.owner = Meteor.users.findOne({_id: shop._owner});
+                }
+                allResults.push(shop);
+            });
+        }
+        return allResults;
+    },
+    'findOneShop': function (...args) {
+        var shop = null;
+        if (args.length === 0) {
+            shop = Shops.findOne();
+        } else if (args.length === 1) {
+            shop = Shops.findOne(args[0]);
+        } else if (args.length === 2) {
+            shop = Shops.findOne(args[0], args.length[1]);
+        } else {
+            // Non-implémenté
+        }
+        if (shop) {
+            if (shop.hasOwnProperty('_owner')) {
+                shop.owner = Meteor.users.findOne({_id: shop._owner});
+            }
+        }
+        return shop;
+    }
+});
+
 // On règle la boutique associée à l'objet
-Shops.before.insert(function (userId, item) {
-    if (item.hasOwnProperty('owner')) {    // On affecte l'élément _owner pour l'insertion en BDD
-        item._ownerp = item.owner._id;
-        delete item.owner;
+Shops.before.insert(function (userId, shop) {
+    if (shop.hasOwnProperty('owner')) {    // On affecte l'élément _owner pour l'insertion en BDD
+        shop._owner = shop.owner._id;
+        delete shop.owner;
     }
 });
 
@@ -82,15 +150,17 @@ Shops.before.upsert(function (userId, selector, modifier, options) {
 });
 
 Shops.after.find(function (userId, selector, options, cursor) {
-    cursor.each(function (err, item) {
-        if (item.hasOwnProperty('_owner')) {
-            item.owner = Meteor.users.findOne({_id: item._owner});
-        }
-    });
+    if (Array.isArray(cursor)) {
+        cursor.forEach(function (item) {
+            if (item.hasOwnProperty('_owner')) {
+                item.owner = Meteor.users.findOne({_id: item._owner});
+            }
+        });
+    }
 });
 
-Shops.after.findOne(function (userId, selector, options, item) {
-    if (item.hasOwnProperty('_owner')) {
-        item.owner = Meteor.users.findOne({_id: item._owner});
+Shops.after.findOne(function (userId, selector, options, shop) {
+    if (shop.hasOwnProperty('_owner')) {
+        shop.owner = Meteor.users.findOne({_id: shop._owner});
     }
 });
