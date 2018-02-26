@@ -160,7 +160,9 @@ Shops.after.find(function (userId, selector, options, cursor) {
 });
 
 Shops.after.findOne(function (userId, selector, options, shop) {
-    if (shop.hasOwnProperty('_owner')) {
-        shop.owner = Meteor.users.findOne({_id: shop._owner});
+    if (shop) {
+        if (shop.hasOwnProperty('_owner')) {
+            shop.owner = Meteor.users.findOne({_id: shop._owner});
+        }
     }
 });

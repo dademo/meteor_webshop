@@ -1,0 +1,36 @@
+<template name="store_item_index">
+    <div class="row">
+        <div class="col-lg-3">
+            <h1 class="my-4">{{store.name}}</h1>
+            <div class="list-group">
+                <a href="#" class="list-group-item active">Category 1</a>
+                <a href="#" class="list-group-item">Category 2</a>
+                <a href="#" class="list-group-item">Category 3</a>
+            </div>
+        </div>
+
+        <div class="col-lg-9">
+            <div class="card mt-4 card-wrapper">
+                <img class="card-img-top img-fluid" src="{{item.img}}" alt="">
+                <div class="card-body">
+                    <h3 class="card-title">{{item.name}}</h3>
+                    <h4>{{item.price}} &euro;</h4>
+                    <p class="card-text">{{item.description}}</p>
+                    <p>
+                    {{#if isNotInfinite}}
+                    Reste <b>{{item.remaining}}</b> articles
+                    {{else}}
+                    Cet article est disponible en quantité infinie
+                    {{/if}}
+                    </p>
+                    {{> store_orderBtn}}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="offset-lg-3 col-lg-9">
+            <a href="/store/{{item._shop}}"><i class="fa fa-chevron-left"></i> Retour &agrave; la boutique</a>
+        </div>
+    </div>
+</template>

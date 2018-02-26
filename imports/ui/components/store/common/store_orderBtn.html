@@ -1,0 +1,17 @@
+<template name="store_orderBtn">
+
+    {{#if isInBasket}}
+    <div class="input-group input-group" id="item-nb-selector">
+        <button type="button" class="btn btn-default btn-circle btn-success btn-lg" id="btn-minus"><i class="fa fa-minus"></i></button>
+        <input type="number" class="form-control" id="nElems" min="0" value="{{inBasketCount getItemId}}"/>
+        <button type="button" class="btn btn-default btn-circle btn-success btn-lg" id="btn-plus"><i class="fa fa-plus"></i></button>
+
+    </div>
+    {{else}}
+    <div class="input-group input-group" id="item-addToBasket">
+        <button class="btn btn-success" id="bt-addToBasket">Ajouter au panier</button>
+    </div>
+    {{/if}}
+
+
+</template>
