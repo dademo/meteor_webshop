@@ -1,3 +1,4 @@
+import './layout/import';
 import './basket/import.js';
 import './contact/import.js';
 import './home/import.js';

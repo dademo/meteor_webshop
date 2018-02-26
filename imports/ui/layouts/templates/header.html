@@ -45,6 +45,14 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+
+                                            {{#each getAllBasketItems}}
+
+                                            {{> basketRow}}
+
+                                            {{/each}}
+                                            
+                                            <!--
                                             <tr>
                                                 <td>Article 1</td>
                                                 <td><input type="number" class="form-control" value="2" min="1"/></td>
@@ -59,7 +67,7 @@
                                                 <td>Article 3</td>
                                                 <td><input type="number" class="form-control" value="1" min="1"/></td>
                                                 <td>XX &euro;</td>
-                                            </tr>
+                                            </tr>-->
                                         </tbody>
                                         <tfoot>
                                             <tr>

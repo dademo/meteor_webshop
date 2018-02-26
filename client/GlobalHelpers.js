@@ -105,6 +105,18 @@ Template.registerHelper('setItemInBasket', function (itemId, count) {
     }
 });
 
+Template.registerHelper('getAllBasketItems', function(){
+    var basket = Session.get('basket');
+    
+    basket.forEach(function(element){
+        element.item = Items.findOne({_id: element.itemId});
+    });
+    
+    console.log(basket);
+    
+    return basket;
+});
+
 Template.registerHelper('shopsList', function(){
     return Shops.find().fetch();
 });
