@@ -103,6 +103,8 @@ Template.registerHelper('setItemInBasket', function (itemId, count) {
         Session.set('basket', basket);
         return 1;
     }
+});
+
 Template.registerHelper('shopsList', function(){
     return Shops.find().fetch();
 });
