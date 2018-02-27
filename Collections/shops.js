@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
+SimpleSchema.extendOptions(['autoform']);
 
 
 Shops = new Mongo.Collection('shops');
@@ -23,24 +24,40 @@ Shops.attachSchema(new SimpleSchema({
     },
     name: {
         type: String,
+        label: 'Nom de la boutique',
         max: 200
     },
     address: {
         type: String,
+        label: 'Adresse de la boutique',
         max: 200
     },
     telephone: {
         type: String,
+        label: 'Téléphone de la boutique',
         max: 10
     },
     schedules: {// Liste des horaires d'ouverture
-        type: Array
+        type: Array,
+        label: 'Horaires d\'ouverture'
     },
     'schedules.$': {// Les éléments contenus sont des objets
         type: Object
     },
     'schedules.$.dDay': {// Jour de la semaine
-        type: Number
+        type: Number,
+        allowedValues: [0, 1, 2, 3, 4, 5, 6],
+        autoform: {
+            options: {
+                0: 'Lundi',
+                1: 'Mardi',
+                2: 'Mercredi',
+                3: 'Jeudi',
+                4: 'Vendredi',
+                5: 'Samedi',
+                6: 'Dimanche'
+            }
+        }
     },
     'schedules.$.begin': {// Début pour la date courante
         type: Date
@@ -50,12 +67,14 @@ Shops.attachSchema(new SimpleSchema({
     },
     img_banner: {// Chemin de la bannière dans le serveur
         type: String,
+        label: 'Bannière du magasin',
         autoValue: function () {
             return 'http://placehold.it/700x400';
         }
     },
     description: {
         type: String,
+        label: 'Description du magasin',
         optional: true
     }
 }));

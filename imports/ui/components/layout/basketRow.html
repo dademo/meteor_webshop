@@ -1,8 +1,8 @@
 <template name="basketRow">
     <tr>
         <td>{{item.name}}</td>
-        <td><input type="number" class="form-control" value="{{count}}" min="0"/></td>
+        <td><input type="number" class="form-control elem-count" value="{{count}}" min="0"  data-elem-id="{{item._id}}" data-index="{{@index}}"/></td>
         <td>{{item.price}} &euro;</td>
-        <td><a href="#"><i class="fa fa-fw fa-times"></i></a></td>
+        <td><a href="#" class="basketDel" data-elem-id="{{item._id}}" data-index="{{@index}}"><i class="fa fa-fw fa-times"></i></a></td>
     </tr>
 </template>

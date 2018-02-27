@@ -48,31 +48,14 @@
 
                                             {{#each getAllBasketItems}}
 
-                                            {{> basketRow}}
+                                            {{> basketRow (dataScope this @index)}}
 
                                             {{/each}}
-                                            
-                                            <!--
-                                            <tr>
-                                                <td>Article 1</td>
-                                                <td><input type="number" class="form-control" value="2" min="1"/></td>
-                                                <td>XX &euro;</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Article 2</td>
-                                                <td><input type="number" class="form-control" value="5" min="1"/></td>
-                                                <td>XX &euro;</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Article 3</td>
-                                                <td><input type="number" class="form-control" value="1" min="1"/></td>
-                                                <td>XX &euro;</td>
-                                            </tr>-->
                                         </tbody>
                                         <tfoot>
                                             <tr>
                                                 <td colspan="2">Total</td>
-                                                <td>XX &euro;</td>
+                                                <td>{{totalBasketPrice}} &euro;</td>
                                             </tr>
                                         </tfoot>
                                     </table>

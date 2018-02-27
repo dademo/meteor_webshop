@@ -1,8 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
+SimpleSchema.extendOptions(['index', 'unique', 'denyInsert', 'denyUpdate', 'autoform']);
 
-
-SimpleSchema.extendOptions(['index', 'unique', 'denyInsert', 'denyUpdate']);
 
 Orders = new Mongo.Collection('orders');
 Orders.allow({
@@ -30,13 +29,20 @@ Orders.attachSchema(new SimpleSchema({
     },
     orderDate: {
         type: Date,
+        label: 'Date de la commande',
         denyUpdate: true,
         autoValue: function () {
             return new Date();
+        },
+        autoform: { // Ne soit pas apparaitre dans le formulaire
+
+            omit: true
+
         }
     },
     withdrawalDate: {// Withdrawal date of the item
-        type: Date
+        type: Date,
+        label: 'Date de réception de la commande'
     }
 }));
 

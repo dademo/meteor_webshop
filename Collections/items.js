@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
+SimpleSchema.extendOptions(['autoform']);
 
 Items = new Mongo.Collection('items');
 
@@ -22,29 +23,41 @@ Items.attachSchema(new SimpleSchema({
     },
     name: {
         type: String,
+        label: 'Nom de l\'article',
         max: 100
     },
     description: {
         type: String,
         max: 500,
-        optional: true
+        label: 'Description de l\'article',
+        optional: true,
+        autoform: {
+            afFieldInput: {// Modification du champs dans le formulaire
+                type: "textarea",
+                rows: 10
+            }
+        }
     },
     price: {
         type: Number,
+        label: 'Prix de l\'article',
         min: 0
     },
     remaining: {// if == -1, <=> Infinite
         type: Number,
+        label: 'Nombre restant d\'articles (-1 correspond à une infinité)',
         min: -1
     },
     img: {
         type: String,
+        label: 'Image de l\'article',
         autoValue: function () {
             return 'http://placehold.it/700x400';
         }
     },
     shop_front: {
         type: Boolean,
+        label: 'L\'article est-il en tête de magasin',
         autoValue: function () {
             return false;
         }
