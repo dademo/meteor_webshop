@@ -67,9 +67,9 @@ Template.registerHelper('addItemInBasket', function (itemId) {
 Template.registerHelper('delItemInBasket', function (itemId) {
     var basket = Session.get('basket');
     var index = getInBasketId(itemId);
-    if (index!= null) {
+    if (index != null) {
         basket[index].count--;
-        if (basket[index].count === 0) {
+        if (basket[index].count <= 0) {
             basket.splice(index, 1); // On enlève l'élément de la BDD
             Session.set('basket', basket);
             return null;
@@ -87,7 +87,7 @@ Template.registerHelper('setItemInBasket', function (itemId, count) {
     var index = getInBasketId(itemId);
     if (index != null) {
         basket[index].count = count;
-        if (basket[index].count == 0) {
+        if (basket[index].count <= 0) {
             basket.splice(index, 1); // On enlève l'élément de la BDD
             Session.set('basket', basket);
             return null;
@@ -96,31 +96,82 @@ Template.registerHelper('setItemInBasket', function (itemId, count) {
             return basket[index].count;
         }
     } else {
-        basket.push({
-            itemId: itemId,
-            count: 1
-        });
+        if (count >= 0) {
+            basket.push({
+                itemId: itemId,
+                count: count
+            });
+        }
         Session.set('basket', basket);
         return 1;
     }
 });
 
-Template.registerHelper('getAllBasketItems', function(){
+Template.registerHelper('byPos_setItemInBasket', function (index, count) {
     var basket = Session.get('basket');
-    
-    basket.forEach(function(element){
+    if (index != null) {
+        basket[index].count = count;
+        if (basket[index].count <= 0) {
+            basket.splice(index, 1); // On enlève l'élément de la BDD
+            Session.set('basket', basket);
+            return null;
+        } else {
+            Session.set('basket', basket);
+            return basket[index].count;
+        }
+    } else {
+        return null;
+    }
+});
+
+Template.registerHelper('getAllBasketItems', function () {
+    var basket = Session.get('basket');
+
+    basket.forEach(function (element) {
         element.item = Items.findOne({_id: element.itemId});
     });
-    
-    console.log(basket);
-    
+
     return basket;
 });
 
-Template.registerHelper('shopsList', function(){
+Template.registerHelper('rmBasketItem', function (itemIdInBasket) {
+    var basket = Session.get('basket');
+    basket.splice(itemIdInBasket, 1); // On enlève l'élément de la BDD
+    Session.set('basket', basket);
+});
+
+Template.registerHelper('totalBasketPrice', function () {
+    var basket = Session.get('basket');
+    var totalPrice = 0;
+    basket.forEach(function (elem) {
+        var item = Items.findOne({_id: elem.itemId});
+        for (var i = 0; i < elem.count; i++) {
+            totalPrice += item.price;
+        }
+    });
+    return Math.round(totalPrice*100)/100;;
+});
+
+Template.registerHelper('shopsList', function () {
     return Shops.find().fetch();
 });
 
-Template.registerHelper('itemsList', function(){
+Template.registerHelper('itemsList', function () {
     return Items.find().fetch();
+});
+
+
+// See: https://github.com/matteodem/meteor-easy-search/tree/master/packages/easysearch:components/lib/each
+/**
+ * Return the datascope for each document.
+ *
+ * @param {Object} scope
+ * @param {Number} index
+ *
+ * @returns {Object}
+ */
+Template.registerHelper('dataScope', function (scope, index) {
+    scope['@index'] = index
+
+    return scope
 });
