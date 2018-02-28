@@ -25,10 +25,16 @@ function getInBasketId(itemId) {
 
 
 Template.registerHelper('userMail', function () {
-
     return  Meteor.user().emails[0].address;
-
 });
+
+Template.registerHelper('userId', function () {
+    return  Meteor.userId();
+})
+
+Template.registerHelper('currentUser', function () {
+    return Meteor.user();
+})
 
 Template.registerHelper('shopsList', function () {
     return Shops.find().fetch();
@@ -149,7 +155,8 @@ Template.registerHelper('totalBasketPrice', function () {
             totalPrice += item.price;
         }
     });
-    return Math.round(totalPrice*100)/100;;
+    return Math.round(totalPrice * 100) / 100;
+    ;
 });
 
 Template.registerHelper('shopsList', function () {
@@ -173,5 +180,9 @@ Template.registerHelper('itemsList', function () {
 Template.registerHelper('dataScope', function (scope, index) {
     scope['@index'] = index
 
-    return scope
+    return scope;
+});
+
+Template.registerHelper('log', function (elem) {
+    console.log(elem);
 });
