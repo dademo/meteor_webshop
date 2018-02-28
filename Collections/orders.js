@@ -35,9 +35,7 @@ Orders.attachSchema(new SimpleSchema({
             return new Date();
         },
         autoform: { // Ne soit pas apparaitre dans le formulaire
-
             omit: true
-
         }
     },
     withdrawalDate: {// Withdrawal date of the item

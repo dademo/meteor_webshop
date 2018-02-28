@@ -7,21 +7,31 @@ SimpleSchema.extendOptions(['index', 'unique', 'denyInsert', 'denyUpdate']);
 
 const Schema = {};
 
+Meteor.users.allow({
+    update: function (userId, doc, fields, modifier) {
+        return true;
+    }
+});
+
 Schema.userProfile = new SimpleSchema({
     firstName: {
         type: String,
+        label: 'Prénom',
         optional: true
     },
     lastName: {
         type: String,
+        label: 'Nom de famille',
         optional: true
     },
     birthDate: {
         type: Date,
+        label: 'Date de naissance',
         optional: true
     },
     address: {
         type: String,
+        label: 'Adresse',
         optional: true
     }
 });
@@ -30,10 +40,16 @@ Schema.userProfile = new SimpleSchema({
 Schema.User = new SimpleSchema({
     username: {
         type: String,
-        optional: true
+        optional: true,
+        autoform: {
+            omit: true
+        }
     },
     emails: {
-        type: Array
+        type: Array,
+        autoform: {
+            minCount: 1
+        }
     },
     "emails.$": {
         type: Object
@@ -43,7 +59,13 @@ Schema.User = new SimpleSchema({
         regEx: SimpleSchema.RegEx.Email
     },
     "emails.$.verified": {
-        type: Boolean
+        type: Boolean,
+        autoform: {
+            omit: true
+        },
+        autoValue: function(){
+            return false;
+        }
     },
     createdAt: {
         type: Date,
@@ -64,7 +86,10 @@ Schema.User = new SimpleSchema({
     services: {
         type: Object,
         optional: true,
-        blackbox: true
+        blackbox: true,
+        autoform: {
+            omit: true
+        }
     },
     // Add `roles` to your schema if you use the meteor-roles package.
     // Option 1: Object type
@@ -74,17 +99,20 @@ Schema.User = new SimpleSchema({
     // Roles.addUsersToRoles(userId, ["admin"], Roles.GLOBAL_GROUP);
     // You can't mix and match adding with and without a group since
     // you will fail validation in some cases.
-    roles: {
-        type: Object,
-        optional: true,
-        blackbox: true
-    },
+    /*roles: {
+     type: Object,
+     optional: true,
+     blackbox: true
+     },*/
     // Option 2: [String] type
     // If you are sure you will never need to use role groups, then
     // you can specify [String] as the type
     roles: {
         type: Array,
-        optional: true
+        optional: true,
+        autoform: {
+            omit: true
+        }
     },
     'roles.$': {
         type: String
