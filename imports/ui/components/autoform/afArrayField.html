@@ -1,0 +1,32 @@
+<template name="afArrayField_bootstrap4">
+    <!-- src: https://github.com/aldeed/meteor-autoform/blob/master/templates/bootstrap3/components/afArrayField/afArrayField.html -->
+  <div class="panel {{panelClass}}">
+    <div class="panel-heading {{headingClass}}">{{afFieldLabelText name=this.atts.name}}</div>
+    {{#if afFieldIsInvalid name=this.atts.name}}
+    <div class="panel-body has-error">
+      <span class="help-block">{{{afFieldMessage name=this.atts.name}}}</span>
+    </div>
+    {{/if}}
+    <ul class="list-group">
+      {{#afEachArrayItem name=this.atts.name minCount=this.atts.minCount maxCount=this.atts.maxCount}}
+      <li class="list-group-item autoform-array-item">
+        <div>
+          <div class="autoform-remove-item-wrap">
+            {{#if afArrayFieldHasMoreThanMinimum name=../atts.name minCount=../atts.minCount maxCount=../atts.maxCount}}
+            <button type="button" class="btn btn-primary autoform-remove-item"><i class="fa fa-fw fa-minus"></i></button><!--<span class="glyphicon glyphicon-minus"></span>-->
+            {{/if}}
+          </div>
+          <div class="autoform-array-item-body">
+            {{> afQuickField name=this.name label=false options=afOptionsFromSchema}}
+          </div>
+        </div>
+      </li>
+      {{/afEachArrayItem}}
+      {{#if afArrayFieldHasLessThanMaximum name=this.atts.name minCount=this.atts.minCount maxCount=this.atts.maxCount}}
+      <li class="list-group-item">
+        <button type="button" class="btn btn-primary autoform-add-item" data-autoform-field="{{this.atts.name}}" data-autoform-minCount="{{this.atts.minCount}}" data-autoform-maxCount="{{this.atts.maxCount}}"><i class="fa fa-fw fa-plus"></i></button><!-- <span class="glyphicon glyphicon-plus"></span> -->
+      </li>
+      {{/if}}
+    </ul>
+  </div>
+</template>

@@ -1,4 +1,5 @@
-import './layout/import';
+import './layout/import.js';
+import './autoform/import.js';
 import './basket/import.js';
 import './contact/import.js';
 import './home/import.js';

@@ -1,3 +1,5 @@
 <template name="user_index">
-    
+    <div class="row">
+        {{> quickForm collection="Meteor.users" id="userUpdateForm" type="update" doc=user}}
+    </div>
 </template>

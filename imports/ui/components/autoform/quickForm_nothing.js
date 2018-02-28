@@ -1,0 +1,1 @@
+import './quickForm_nothing.html';

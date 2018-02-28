@@ -1,2 +1,2 @@
-import './user_index.html';
+import './user_index.js';
 import './user_signin.html';
