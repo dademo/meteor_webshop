@@ -1,5 +1,14 @@
 <template name="user_index">
     <div class="row">
-        {{> quickForm collection="Meteor.users" id="userUpdateForm" type="update" doc=user}}
+        <div class="col-md-3">
+            <h1 class="my-4">{{user.profile.firstName}} {{user.profile.lastName}}</h1>
+            <div class="list-group">
+                <a href="#" class="list-group-item active">&Agrave; propos de l'utilisateur</a>
+                <a href="#" class="list-group-item">Category 2</a>
+            </div>
+        </div>
+        <div class="col-md-9">
+            {{> quickForm collection="Meteor.users" id="userUpdateForm" type="update" doc=user}}
+        </div>
     </div>
 </template>

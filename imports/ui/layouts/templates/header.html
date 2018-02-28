@@ -22,7 +22,7 @@
 
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownLogin" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fa fa-user"></i> Connexion
+                            <i class="fa fa-user"></i> {{#if currentUser}} Connecté {{else}} Connexion {{/if}}
                         </a>
                         <div id="login-dp" class="dropdown-menu dropdown-menu-right" aria-labelledby="navbardropdownLogin">
                             {{> menu_login}}
