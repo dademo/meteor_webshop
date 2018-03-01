@@ -25,5 +25,16 @@ Meteor.methods({
     },
     'getUser': function (userMail) {
         return Accounts.findUserByEmail(userMail);
+    },
+    getShopOwnerMail: function (shopId) {
+        if (shopId !== null) {
+            var shop = Shops.findOne({_id: shopId});
+            var owner = Meteor.users.findOne({_id: shop._owner});
+            if (owner) {
+                return owner.emails[0].address;
+            } else {
+                return '';
+            }
+        }
     }
 });
