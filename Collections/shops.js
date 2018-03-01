@@ -13,14 +13,33 @@ Shops.allow({
         return true;
     },
     remove: function () {
-        return true;
+        return false;
+    }
+});
+
+
+const Schema = {};
+
+Schema.location = new SimpleSchema({
+    latitude: {
+        type: Number,
+        label: 'Latitude',
+        optional: true
+    },
+    longitude: {
+        type: Number,
+        label: 'Longitude',
+        optional: true
     }
 });
 
 Shops.attachSchema(new SimpleSchema({
     _owner: {
         type: String,
-        max: 24
+        max: 24,
+        autoform: {
+            omit: true
+        }
     },
     name: {
         type: String,
@@ -42,10 +61,12 @@ Shops.attachSchema(new SimpleSchema({
         label: 'Horaires d\'ouverture'
     },
     'schedules.$': {// Les éléments contenus sont des objets
-        type: Object
+        type: Object,
+        label: 'Horaire d\'ouverture'
     },
     'schedules.$.dDay': {// Jour de la semaine
         type: Number,
+        label: 'Jour de la semaine',
         allowedValues: [0, 1, 2, 3, 4, 5, 6],
         autoform: {
             options: {
@@ -60,10 +81,12 @@ Shops.attachSchema(new SimpleSchema({
         }
     },
     'schedules.$.begin': {// Début pour la date courante
-        type: Date
+        type: 'datetime',
+        label: 'Heure de début'
     },
     'schedules.$.end': {// Fin pour la date courante
-        type: Date
+        type: 'datetime',
+        label: 'Heure de fin'
     },
     img_banner: {// Chemin de la bannière dans le serveur
         type: String,
@@ -75,6 +98,10 @@ Shops.attachSchema(new SimpleSchema({
     description: {
         type: String,
         label: 'Description du magasin',
+        optional: true
+    },
+    location: {
+        type: Schema.location,
         optional: true
     }
 }));
