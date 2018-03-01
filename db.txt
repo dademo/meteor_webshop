@@ -10,6 +10,10 @@ shops: {
 	}
 	img_banner: #String# // Path inside the server
 	description: #String#
+	location: {
+		latitude: #Float#
+		longitude: #Float#
+	}
 }
 
 items: {
