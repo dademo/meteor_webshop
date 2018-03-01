@@ -22,6 +22,31 @@ var userId = Accounts.createUser({
     }
 });
 
+var userId2 = Accounts.createUser({
+    username: 'dademo2',
+    email: 'damien.demonaz@gmail.com',
+    password: 'azerty',
+    profile: {
+        firstName: 'Damien',
+        lastName: 'DEMONAZ',
+        adress: '19bis rue Mathurin Régnier',
+        birthDate: new Date(1998, 7, 29)
+    }
+});
+
+var userId3 = Accounts.createUser({
+    username: 'dademo3',
+    email: 'damien.demonaz@hotmail.fr',
+    password: 'azerty',
+    profile: {
+        firstName: 'Damien',
+        lastName: 'DEMONAZ',
+        adress: '19bis rue Mathurin Régnier',
+        birthDate: new Date(1998, 7, 29)
+    }
+});
+
+
 var shop_id = Meteor.call('addShop', {
     owner: Accounts.findUserByEmail('dev.damien.demonaz@gmail.com'),
     name: 'TestShop',
@@ -33,12 +58,16 @@ var shop_id = Meteor.call('addShop', {
             end: new Date(0, 0, 0, 19, 0, 0)
         }],
     img_banner: '',
-    description: 'La première boutique !'
+    description: 'La première boutique !',
+    location: {
+        latitude: 45.737987,
+        longitude: 4.868040
+    }
 });
 
 
 var shop2_id = Meteor.call('addShop', {
-    owner: Accounts.findUserByEmail('dev.damien.demonaz@gmail.com'),
+    owner: Accounts.findUserByEmail('damien.demonaz@gmail.com'),
     name: 'Shop2',
     address: 'Test',
     telephone: '0605257946',
@@ -48,7 +77,11 @@ var shop2_id = Meteor.call('addShop', {
             end: new Date(0, 0, 0, 19, 0, 0)
         }],
     img_banner: '',
-    description: 'La deuxième boutique !'
+    description: 'La deuxième boutique !',
+    location: {
+        latitude: 45.737987,
+        longitude: 4.868040
+    }
 });
 
 /*

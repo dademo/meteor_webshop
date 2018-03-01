@@ -1,0 +1,39 @@
+<template name="store_home_about">
+    <div class="row">
+        <h1 class="mt-4 mb-3">{{store.name}} : Contact</h1>
+    </div>
+    <div class="row">
+        <div class="col-lg-3">
+            {{> store_storeMenu}}
+        </div>
+
+        <div class="col-lg-9">
+            <div class="row">
+                <div class="map-container">
+                    {{> googleMap name="shopMap" options=shopMapOptions}}
+                </div>
+
+                <div>
+                    <h3>Notre adresse</h3>
+                    <p>
+                        {{store.address}}
+                    </p>
+                    <p>
+                        <abbr title="Phone">P</abbr>: (123) 456-7890
+                    </p>
+                    <p>
+                        <abbr title="Email">E</abbr>:
+                        <a href="mailto:{{!ownerMail}}">{{!ownerMail}}</a>
+                    </p>
+                    <p>
+                    <ul>
+                        {{#each store.schedules}}
+                        <li>{{getDay dDay}} - {{myDate begin}} -> {{myDate end}}</li>
+                        {{/each}}
+                    </ul>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

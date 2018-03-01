@@ -4,7 +4,11 @@
             <h1 class="my-4">{{user.profile.firstName}} {{user.profile.lastName}}</h1>
             <div class="list-group">
                 <a href="#" class="list-group-item active">&Agrave; propos de l'utilisateur</a>
-                <a href="#" class="list-group-item">Category 2</a>
+                {{#if hasStore}}
+                <a href="/user/store" class="list-group-item">Acc&eacute;der &agrave; votre magasin</a>
+                {{else}}
+                <a href="/user/store-create" class="list-group-item store-create">Créer son magasin<i class="fa fa-fw fa-plus-circle"></i></a>
+                {{/if}}
             </div>
         </div>
         <div class="col-md-9">
